@@ -63,11 +63,17 @@ class APIController extends Controller
 
         $event = Event::find($event_id);
 
-        $ticket = new Ticket;
-        $ticket->price = $ticket_price;
-        $ticket->quota = $ticket_quota;
+        // $ticket = new Ticket;
+        // $ticket->price = $ticket_price;
+        // $ticket->quota = $ticket_quota;
 
+        // $event->ticket()->create($ticket);
+        $ticket = new Ticket([
+          'price' => $ticket_price,
+          'quota' => $ticket_quota
+        ]);
         $event->ticket()->save($ticket);
+
         return response()->json($ticket, 201);
     }
 

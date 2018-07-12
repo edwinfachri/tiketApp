@@ -17,7 +17,7 @@ class Event extends Model
     }
 
     public function ticket() {
-      return $this->belongsTo('app\Ticket');
+      return $this->hasOne('app\Ticket');
     }
 
     public function transaction() {
