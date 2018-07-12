@@ -14,3 +14,10 @@
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::post('event/create', 'APIController@createEvent');
+Route::post('location/create', 'APIController@createLocation');
+Route::post('event/ticket/create', 'APIController@createTicket');
+Route::get('event/get_info', 'APIController@getEvent');
+Route::post('transaction/purchase', 'APIController@purchaseTicket');
+Route::get('transaction/get_info', 'APIController@getTransactionDetail');
