@@ -12,8 +12,8 @@ Tables Assumptions:
     - country
   3. Table Schedule has:
     - id
-    - dateStart
-    - dateEnd
+    - date_start
+    - date_end
   4. Table Ticket_type has:
     - id
     - event_id

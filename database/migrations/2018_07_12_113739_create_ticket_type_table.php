@@ -18,7 +18,7 @@ class CreateTicketTypeTable extends Migration
             $table->integer('event_id')->unsigned();
             $table->foreign('event_id')->references('id')
                   ->on('event')->onDelete('cascade');
-
+        
             $table->integer('price');
             $table->integer('quota');
             $table->timestamps();
