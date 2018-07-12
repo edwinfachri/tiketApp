@@ -13,12 +13,12 @@ class CreateTicketTypeTable extends Migration
      */
     public function up()
     {
-        Schema::create('ticket_type', function (Blueprint $table) {
+        Schema::create('ticket', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('event_id')->unsigned();
             $table->foreign('event_id')->references('id')
                   ->on('event')->onDelete('cascade');
-        
+
             $table->integer('price');
             $table->integer('quota');
             $table->timestamps();
@@ -32,6 +32,6 @@ class CreateTicketTypeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ticket_type');
+        Schema::dropIfExists('ticket');
     }
 }

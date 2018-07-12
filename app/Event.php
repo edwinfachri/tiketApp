@@ -16,8 +16,8 @@ class Event extends Model
       return $this->belongsTo('app\Schedule', 'schedule_id');
     }
 
-    public function ticketType() {
-      return $this->belongsTo('app\TicketType');
+    public function ticket() {
+      return $this->belongsTo('app\Ticket');
     }
 
     public function transaction() {

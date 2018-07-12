@@ -13,14 +13,14 @@ class CreateTransactionTicketTypeTable extends Migration
      */
     public function up()
     {
-        Schema::create('transaction_ticket_type', function (Blueprint $table) {
+        Schema::create('transaction_ticket', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('transaction_id')->unsigned();
             $table->foreign('transaction_id')->references('id')
                   ->on('transaction')->onDelete('cascade');
-            $table->integer('ticket_type_id')->unsigned();
-            $table->foreign('ticket_type_id')->references('id')
-                  ->on('ticket_type')->onDelete('cascade');
+            $table->integer('ticket_id')->unsigned();
+            $table->foreign('ticket_id')->references('id')
+                  ->on('ticket')->onDelete('cascade');
             $table->timestamps();
         });
     }
@@ -32,6 +32,6 @@ class CreateTransactionTicketTypeTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transaction_ticket_type');
+        Schema::dropIfExists('transaction_ticket');
     }
 }

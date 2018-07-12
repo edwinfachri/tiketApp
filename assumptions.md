@@ -14,7 +14,7 @@ Tables Assumptions:
     - id
     - date_start
     - date_end
-  4. Table Ticket_type has:
+  4. Table Ticket has:
     - id
     - event_id
     - price

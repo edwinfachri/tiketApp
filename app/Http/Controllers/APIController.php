@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Event;
 use App\Location;
 use App\Schedule;
+use App\Ticket;
 
 class APIController extends Controller
 {
@@ -41,12 +42,33 @@ class APIController extends Controller
         return response()->json($event, 201);
     }
 
-    public function createLocation() {
+    public function createLocation(Request $request) {
+        $location_name = strtolower($_POST['location_name']);
+        $location_city = strtolower($_POST['location_city']);
+        $location_country = strtolower($_POST['location_country']);
 
+        $location = Location::firstOrCreate([
+          'name' => $location_name,
+          'city' => $location_city,
+          'country' => $location_country
+        ]);
+
+        return response()->json($location, 201);
     }
 
     public function createTicket() {
+        $event_id = $_POST['event_id'];
+        $ticket_price = $_POST['ticket_price'];
+        $ticket_quota = $_POST['ticket_quota'];
 
+        $event = Event::find($event_id);
+
+        $ticket = new Ticket;
+        $ticket->price = $ticket_price;
+        $ticket->quota = $ticket_quota;
+
+        $event->ticket()->save($ticket);
+        return response()->json($ticket, 201);
     }
 
     public function getEvent() {

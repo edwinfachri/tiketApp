@@ -16,7 +16,7 @@ class Transaction extends Model
       return $this->belongsTo('app\Customer');
     }
 
-    public function ticketType() {
-      return $this->belongsToMany('App\TicketType', 'transaction_ticket_type');
+    public function ticket() {
+      return $this->belongsToMany('App\Ticket', 'transaction_ticket');
     }
 }
