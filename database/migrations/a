@@ -1,0 +1,64 @@
+public function up()
+{
+
+    Schema::create('ticket_type', function (Blueprint $table) {
+        $table->increments('id');
+        $table->integer('price');
+        $table->integer('quota');
+        $table->timestamps();
+    });
+    Schema::create('customer', function (Blueprint $table) {
+        $table->increments('id');
+        $table->timestamps();
+    });
+    Schema::create('event', function (Blueprint $table) {
+        $table->increments('id')->unsigned();
+        $table->integer('location_id')->unsigned();
+        $table->foreign('location_id')->references('id')
+              ->on('location')->onDelete('cascade');
+        $table->integer('schedule_id')->unsigned();
+        $table->foreign('schedule_id')->references('id')
+              ->on('schedule')->onDelete('cascade');
+        $table->integer('ticket_type_id')->unsigned();
+        $table->foreign('ticket_type_id')->references('id')
+              ->on('ticket_type')->onDelete('cascade');
+        $table->timestamps();
+    });
+    Schema::create('transaction', function (Blueprint $table) {
+        $table->increments('id');
+        $table->integer('customer_id')->unsigned();
+        $table->foreign('customer_id')->references('id')
+              ->on('customer')->onDelete('cascade');
+        $table->integer('event_id')->unsigned();
+        $table->foreign('event_id')->references('id')
+              ->on('event')->onDelete('cascade');
+        $table->integer('quantity');
+        $table->timestamps();
+    });
+    Schema::create('transaction_ticket_type', function (Blueprint $table) {
+        $table->increments('id');
+        $table->integer('transaction_id')->unsigned();
+        $table->foreign('transaction_id')->references('id')
+              ->on('transaction')->onDelete('cascade');
+        $table->integer('ticket_type_id')->unsigned();
+        $table->foreign('ticket_type_id')->references('id')
+              ->on('ticket_type')->onDelete('cascade');
+        $table->timestamps();
+    });
+}
+
+/**
+ * Reverse the migrations.
+ *
+ * @return void
+ */
+public function down()
+{
+    Schema::dropIfExists('schedule');
+    Schema::dropIfExists('location');
+    Schema::dropIfExists('ticket_type');
+    Schema::dropIfExists('customer');
+    Schema::dropIfExists('event');
+    Schema::dropIfExists('transaction');
+    Schema::dropIfExists('transaction_ticket_type');
+}
