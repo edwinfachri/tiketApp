@@ -21,9 +21,8 @@ class CreateEventTable extends Migration
             $table->integer('schedule_id')->unsigned();
             $table->foreign('schedule_id')->references('id')
                   ->on('schedule')->onDelete('cascade');
-            $table->integer('ticket_type_id')->unsigned();
-            $table->foreign('ticket_type_id')->references('id')
-                  ->on('ticket_type')->onDelete('cascade');
+            $table->string('name');
+            $table->integer('age_limit')->default('0');
             $table->timestamps();
         });
     }
