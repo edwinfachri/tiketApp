@@ -22,7 +22,7 @@ Tables Assumptions:
   5. Table Transaction has:
     - id
     - customer_id
-    - event_id
+    - ticket_id
     - quantity
   6. Table Customer has:
     - name
@@ -31,7 +31,3 @@ Tables Assumptions:
     - address
     - phone
     - email
-  7. Table Transaction_ticket_type has:
-    - id
-    - transaction_id
-    - ticket_type_id

@@ -83,7 +83,19 @@ class APIController extends Controller
         $transaction_quantity = $_POST['transaction_quantity'];
         $event = $_POST['event_id'];
         $customer = $_POST['customer_id'];
-        $ticket = $_POST['ticket_id'];
+
+        # Number of distinct ticket bought
+        $ticket_count = $_POST['ticket_count'];
+
+        # Save the value of ticket ids to different variable
+        foreach ($ticket_count as $key=>$value) {
+          ${'ticket_id_'.$key} = $_POST['ticket_id_'.$key]
+        }
+
+        $transaction = new Transaction;
+        $event = Event::find($event);
+        $customer = Customer::find($customer);
+        
     }
 
     public function getTransactionDetail() {

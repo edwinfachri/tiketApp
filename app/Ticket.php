@@ -14,6 +14,6 @@ class Ticket extends Model
     }
 
     public function transaction() {
-      return $this->belongsToMany('App\Transaction', 'transaction_ticket');
+      return $this->hasMany('App\Transaction');
     }
 }
