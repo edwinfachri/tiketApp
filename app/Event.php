@@ -12,10 +12,6 @@ class Event extends Model
       return $this->belongsTo('app\Location', 'location_id');
     }
 
-    public function schedule() {
-      return $this->belongsTo('app\Schedule', 'schedule_id');
-    }
-
     public function ticket() {
       return $this->hasOne('app\Ticket');
     }

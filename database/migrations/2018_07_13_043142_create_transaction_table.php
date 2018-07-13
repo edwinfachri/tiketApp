@@ -22,6 +22,7 @@ class CreateTransactionTable extends Migration
             $table->foreign('ticket_id')->references('id')
                   ->on('ticket')->onDelete('cascade');
             $table->integer('quantity');
+            $table->string('uid');
             $table->timestamps();
         });
     }

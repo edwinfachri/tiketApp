@@ -8,7 +8,7 @@ class Transaction extends Model
 {
     protected $table = 'transaction';
 
-    public function event() {
+    public function ticket() {
       return $this->belongsTo('app\Ticket');
     }
 
