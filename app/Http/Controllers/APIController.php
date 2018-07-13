@@ -10,7 +10,7 @@ use App\Ticket;
 
 class APIController extends Controller
 {
-    public function createEvent(Request $request) {
+    public function createEvent() {
         $event_name = strtolower($_POST['event_name']);
         $event_age_limit = empty($_POST['event_age_limit'])?$_POST['event_age_limit']:'0';
         $location_name = strtolower($_POST['location_name']);
@@ -38,11 +38,10 @@ class APIController extends Controller
         $event->location()->associate($location);
         $event->save();
 
-        // return $event;
         return response()->json($event, 201);
     }
 
-    public function createLocation(Request $request) {
+    public function createLocation() {
         $location_name = strtolower($_POST['location_name']);
         $location_city = strtolower($_POST['location_city']);
         $location_country = strtolower($_POST['location_country']);
@@ -63,11 +62,6 @@ class APIController extends Controller
 
         $event = Event::find($event_id);
 
-        // $ticket = new Ticket;
-        // $ticket->price = $ticket_price;
-        // $ticket->quota = $ticket_quota;
-
-        // $event->ticket()->create($ticket);
         $ticket = new Ticket([
           'price' => $ticket_price,
           'quota' => $ticket_quota
@@ -78,11 +72,18 @@ class APIController extends Controller
     }
 
     public function getEvent() {
-
+        $event_id = $_GET['event_id'];
+        $location = new Location;
+        $schedule = new Schedule;
+        $event = Event::with(['location', 'schedule'])->first();
+        return response()->json($event, 201);
     }
 
     public function purchaseTicket() {
-
+        $transaction_quantity = $_POST['transaction_quantity'];
+        $event = $_POST['event_id'];
+        $customer = $_POST['customer_id'];
+        $ticket = $_POST['ticket_id'];
     }
 
     public function getTransactionDetail() {

@@ -14,6 +14,9 @@ class VerifyCsrfToken extends Middleware
     protected $except = [
         '/event/create',
         '/location/create',
-        '/event/ticket/create'
+        '/event/ticket/create',
+        '/event/get_info',
+        '/transaction/purchase',
+        '/transaction/get_info'
     ];
 }
