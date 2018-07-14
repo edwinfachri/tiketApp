@@ -1,7 +1,10 @@
 ## ASSUMPTIONS
   1. Customer must register to buy the ticket
   2. The location in createEvent function is predefined. So that only the id will be pass as a parameter
-  3. 
+  3. Format of the date is YYYY-MM-DD or YYYYMMDD
+  4. User does not need to login to make transaction
+  5. Additional function is created to create customer: createCustomer
+
 ## Tables:
   1. Table event has:
     - id
@@ -65,5 +68,13 @@
       - transaction_ticket_id_(1..transaction_count)
       - transaction_ticket_id_(1..transaction_count)
   6. getTransactionDetail
-    Parameter:
+    - **Parameter:**
       - transaction_id
+  7. createCustomer
+    - **Parameter:**
+      - customer_name
+      - customer_birth_date
+      - customer_city
+      - customer_address
+      - customer_phone
+      - customer_email

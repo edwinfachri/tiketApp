@@ -17,6 +17,7 @@ class VerifyCsrfToken extends Middleware
         '/event/ticket/create',
         '/event/get_info',
         '/transaction/purchase',
-        '/transaction/get_info'
+        '/transaction/get_info',
+        '/customer/create'
     ];
 }

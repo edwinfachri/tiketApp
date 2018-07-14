@@ -77,7 +77,7 @@ class APIController extends Controller
           'country' => $location_country
         ]);
 
-        return response()->json('success'=>'Location Successfully Created', 201);
+        return response()->json(['success'=>'Location Successfully Created'], 201);
     }
 
     public function createTicket(Request $request) {
@@ -110,7 +110,7 @@ class APIController extends Controller
         # Save event and ticket to its relational model
         $event->ticket()->save($ticket);
 
-        return response()->json('success'=>'Ticket Successfully Created', 201);
+        return response()->json(['success'=>'Ticket Successfully Created'], 201);
     }
 
     public function getEvent() {
@@ -259,5 +259,42 @@ class APIController extends Controller
         $transactions['total'] = $total;
 
         return response()->json($transactions, 200);
+    }
+
+    public function createCustomer(Request $request) {
+        # Validation for each parameter
+        $validator = Validator::make($request->all(), [
+          'customer_name' => 'required|string|max:255',
+          'customer_birth_date' => 'required|date',
+          'customer_city' => 'required|string|min:5',
+          'customer_address' => 'required|string|min:5',
+          'customer_phone' => 'required|numeric',
+          'customer_email' => 'required|email'
+        ]);
+
+        # Return error message when it fails
+        if ($validator->fails()) {
+          return response()->json(['error'=>'Validation Error'], 406);
+        }
+
+        # Initialize each parameter
+        $customer_name = strtolower($_POST['customer_name']);
+        $customer_birth_date = $_POST['customer_birth_date'];
+        $customer_city = strtolower($_POST['customer_city']);
+        $customer_address = strtolower($_POST['customer_address']);
+        $customer_phone = $_POST['customer_phone'];
+        $customer_email = strtolower($_POST['customer_email']);
+
+        # Create new Customer model and assign each parameter to its attributes
+        $customer = new Customer;
+        $customer->name = $customer_name;
+        $customer->birth_date = $customer_birth_date;
+        $customer->city = $customer_city;
+        $customer->address = $customer_address;
+        $customer->phone = $customer_phone;
+        $customer->email = $customer_email;
+        $customer->save();
+
+        return response()->json(['success'=>'User Successfully Created'], 201);
     }
 }

@@ -21,3 +21,4 @@ Route::post('event/ticket/create', 'APIController@createTicket');
 Route::get('event/get_info', 'APIController@getEvent');
 Route::post('transaction/purchase', 'APIController@purchaseTicket');
 Route::get('transaction/get_info', 'APIController@getTransactionDetail');
+Route::post('customer/create', 'APIController@createCustomer');
