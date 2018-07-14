@@ -24,6 +24,9 @@ class CreateTransactionTable extends Migration
             $table->integer('quantity');
             $table->string('uid');
             $table->timestamps();
+
+            $table->index(['id', 'customer_id', 'ticket_id', 'uid']);
+
         });
     }
 

@@ -23,6 +23,9 @@ class CreateEventTable extends Migration
             $table->date('date_start');
             $table->date('date_finish');
             $table->timestamps();
+
+            $table->index(['id', 'location_id']);
+
         });
     }
 

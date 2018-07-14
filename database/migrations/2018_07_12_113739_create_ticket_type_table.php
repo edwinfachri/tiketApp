@@ -22,6 +22,9 @@ class CreateTicketTypeTable extends Migration
             $table->integer('price');
             $table->integer('quota');
             $table->timestamps();
+
+            $table->index(['id', 'event_id']);
+
         });
     }
 
