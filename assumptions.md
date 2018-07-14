@@ -1,9 +1,9 @@
-Tables Assumptions:
+## Tables Assumptions:
   1. Table event has:
     - id
     - location_id
     - name
-    - age_limit
+    - age_limit: default value of 0
     - date_start
     - date_end
   2. Table Location has:
@@ -30,26 +30,35 @@ Tables Assumptions:
     - phone
     - email
 
-Controller:
+## Controller:
   1. createEvent
-    Parameter:
+    - **Parameter:**
       - event_name
       - event_age_limit (optional)
-      - location_name
-      - location_city
-      - location_country
+      - location_id
       - event_date_start
       - event_date_finish (optional)
   2. createLocation
-    Parameter:
+    - **Parameter:**
       - location_name
       - location_city
       - location_country
   3. createTicket
-    Parameter:
+    - **Parameter:**
       - event_id
       - ticket_price
       - ticket_quota
   4. getEvent
-    Parameter:
+    - **Parameter:**
       - event_id
+    - **Output:**
+      -
+  5. purchaseTicket
+    - **Parameter:**
+      - customer_id
+      - transaction_count: the number of distinct ticket type
+      - transaction_ticket_id_(1..transaction_count)
+      - transaction_ticket_id_(1..transaction_count)
+  6. getTransactionDetail
+    Parameter:
+      - transaction_id
