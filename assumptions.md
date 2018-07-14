@@ -1,11 +1,15 @@
-## Tables Assumptions:
+## ASSUMPTIONS
+  1. Customer must register to buy the ticket
+  2. The location in createEvent function is predefined. So that only the id will be pass as a parameter
+  3. 
+## Tables:
   1. Table event has:
     - id
     - location_id
     - name
     - age_limit: default value of 0
     - date_start
-    - date_end
+    - date_finish
   2. Table Location has:
     - id
     - name
@@ -23,6 +27,7 @@
     - quantity
     - uid
   5. Table Customer has:
+    - id
     - name
     - birth_date
     - city
@@ -30,7 +35,7 @@
     - phone
     - email
 
-## Controller:
+## Functions and Parameters:
   1. createEvent
     - **Parameter:**
       - event_name

@@ -24,7 +24,7 @@ class APIController extends Controller
 
         # Return error message when it fails
         if ($validator->fails()) {
-          return response()->json(['error'=>'Validation Error'], 201);
+          return response()->json(['error'=>'Validation Error'], 406);
         }
 
         # Initialize each parameter
@@ -49,7 +49,7 @@ class APIController extends Controller
         $event->location()->associate($location);
         $event->save();
 
-        return response()->json($event, 201);
+        return response()->json(['success'=>'Event Successfully Created'], 201);
     }
 
     public function createLocation(Request $request) {
@@ -62,7 +62,7 @@ class APIController extends Controller
 
         # Return error message when it fails
         if ($validator->fails()) {
-          return response()->json(['error'=>'Validation Error'], 201);
+          return response()->json(['error'=>'Validation Error'], 406);
         }
 
         # Initialize each parameter
@@ -77,7 +77,7 @@ class APIController extends Controller
           'country' => $location_country
         ]);
 
-        return response()->json($location, 201);
+        return response()->json('success'=>'Location Successfully Created', 201);
     }
 
     public function createTicket(Request $request) {
@@ -90,7 +90,7 @@ class APIController extends Controller
 
         # Return error message when it fails
         if ($validator->fails()) {
-          return response()->json(['error'=>'Validation Error'], 201);
+          return response()->json(['error'=>'Validation Error'], 406);
         }
 
         # Initialize each parameter
@@ -110,7 +110,7 @@ class APIController extends Controller
         # Save event and ticket to its relational model
         $event->ticket()->save($ticket);
 
-        return response()->json($ticket, 201);
+        return response()->json('success'=>'Ticket Successfully Created', 201);
     }
 
     public function getEvent() {
@@ -121,7 +121,7 @@ class APIController extends Controller
 
         # Return error message when it fails
         if ($validator->fails()) {
-          return response()->json(['error'=>'Validation Error'], 201);
+          return response()->json(['error'=>'Validation Error'], 406);
         }
 
         # Initialize parameter
@@ -132,7 +132,7 @@ class APIController extends Controller
 
         # Select event join to location table, return fail if not found
         $event = Event::with(['location'])->findOrFail($event_id);
-        return response()->json($event, 201);
+        return response()->json($event, 200);
     }
 
     public function purchaseTicket(Request $request) {
@@ -144,7 +144,7 @@ class APIController extends Controller
 
         # Return error message when it fails
         if ($validator->fails()) {
-          return response()->json(['error'=>'Validation Error'], 201);
+          return response()->json(['error'=>'Validation Error'], 406);
         }
 
         # Initialize some parameters
@@ -167,7 +167,7 @@ class APIController extends Controller
 
             # Return error message when it fails
             if ($validator->fails()) {
-              return response()->json(['error'=>'Validation Error'], 201);
+              return response()->json(['error'=>'Validation Error'], 406);
             }
 
             # Initialize some parameters
@@ -184,13 +184,13 @@ class APIController extends Controller
 
             # Check whether the event id is the same as previous transaction unless cancel the transaction
             if ($temp_event_id != $ticket->event_id) {
-                return response()->json(['error'=>'One purchase can only have one event'], 201);
+                return response()->json(['error'=>'One purchase can only have one event'], 406);
             }
 
             # Check whether the ticket is available
             if ($ticket->quota < $transaction_quantity) {
                 $event_name = Event::findOrFail($ticket->event_id)->name;
-                return response()->json(['error'=>'The ticket for '.$event_name.' is '.$ticket->quota.' left'], 201);
+                return response()->json(['error'=>'The ticket for '.$event_name.' is '.$ticket->quota.' left'], 406);
             }
         }
 
@@ -222,7 +222,7 @@ class APIController extends Controller
             $transaction->ticket()->associate($ticket);
             $transaction->save();
         }
-        return response()->json(['error'=>'Transaction succeeded'], 201);
+        return response()->json(['error'=>'Transaction succeeded'], 406);
     }
 
     public function getTransactionDetail() {
@@ -233,7 +233,7 @@ class APIController extends Controller
 
         # Return error message when it fails
         if ($validator->fails()) {
-          return response()->json(['error'=>'Validation Error'], 201);
+          return response()->json(['error'=>'Validation Error'], 406);
         }
 
         # Initialize parameter
@@ -258,6 +258,6 @@ class APIController extends Controller
         }
         $transactions['total'] = $total;
 
-        return response()->json([$transactions], 201);
+        return response()->json($transactions, 200);
     }
 }
