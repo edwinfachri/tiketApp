@@ -60,7 +60,14 @@
     - **Parameter:**
       - event_id
     - **Output:**
-      -
+      - name
+      - age_limit
+      - date_start
+      - date_finish
+      - location :
+        - name
+        - city
+        - country
   5. purchaseTicket
     - **Parameter:**
       - customer_id
@@ -70,6 +77,26 @@
   6. getTransactionDetail
     - **Parameter:**
       - transaction_id
+    - **Output:**
+      - [counter]
+        - customer_id
+        - ticket_id
+        - quantity
+        - uid
+        - ticket :
+          - event_id
+          - price
+        - event :
+          - name
+          - age_limit
+          - date_start
+          - date_finish
+        - location:
+          - name
+          - city
+          - country
+        - subtotal
+      -total
   7. createCustomer
     - **Parameter:**
       - customer_name
