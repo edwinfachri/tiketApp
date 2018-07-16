@@ -14,6 +14,6 @@ class Ticket extends Model
     }
 
     public function transaction() {
-      return $this->hasManyThrough('App\Transaction', 'App\TicketTransaction');
+      return $this->belongsToMany('App\Transaction');
     }
 }

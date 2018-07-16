@@ -6,13 +6,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class TicketTransaction extends Model
 {
-    public function ticket()
-    {
-        return $this->belongsToMany('App\Ticket');
+    protected $table = 'ticket_transaction';
+
+    public function ticket() {
+      return $this->hasMany('app\Ticket');
     }
 
-    public function transaction()
-    {
-        return $this->belongsToMany('App\Transaction');
+    public function transaction() {
+      return $this->hasMany('app\Transaction');
     }
 }

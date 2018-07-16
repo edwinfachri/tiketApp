@@ -9,6 +9,7 @@ use App\Location;
 use App\Ticket;
 use App\Transaction;
 use App\Customer;
+use App\TicketTransaction;
 
 class APIController extends Controller
 {
@@ -196,8 +197,11 @@ class APIController extends Controller
             }
         }
 
-        # Generate Unique ID to group the transaction
-        $uid = md5(uniqid(rand(), true));
+        # Create new transaction instance and associate it with the customer
+        $transaction = new Transaction;
+        $customer = Customer::findOrFail($customer)->id;
+        $transaction->customer()->associate($customer);
+        $transaction->save();
 
         # Save the transactions
         for ($i = 1; $i <= $transaction_count; $i++) {
@@ -206,25 +210,23 @@ class APIController extends Controller
             $transaction_ticket_id = $_POST['transaction_ticket_id_'.($i)];
             $transaction_quantity = (int) $_POST['transaction_quantity_'.($i)];
 
-            # Create new transaction instance and assign each parameter to its attributes
-            $transaction = new Transaction;
-            $transaction->quantity = $transaction_quantity;
-            $transaction->uid = $uid;
-
-            # Search customer and ticket, return fail if not found
-            $customer = Customer::findOrFail($customer)->id;
+            # Search ticket, return fail if not found
             $ticket = Ticket::findOrFail($transaction_ticket_id);
+
+            # Attach the transaction to ticket to make TicketTransaction model
+            $ticket->transaction()->attach($transaction->id,
+            [
+              'quantity' => $transaction_quantity,
+              'total' => $ticket->price * $transaction_quantity,
+              'created_at' => $transaction->created_at,
+              'updated_at' => $transaction->created_at
+            ]);
 
             # Distract the quota of the ticket
             $ticket->quota -= $transaction_quantity;
             $ticket->save();
-
-            # Associate the customer and ticket to the transaction to save relational model
-            $transaction->customer()->associate($customer);
-            $transaction->ticket()->associate($ticket);
-            $transaction->save();
         }
-        return response()->json(['error'=>'Transaction succeeded'], 406);
+        return response()->json(['success'=>'Transaction succeeded'], 201);
     }
 
     public function getTransactionDetail(Request $request) {
@@ -243,7 +245,9 @@ class APIController extends Controller
 
         # Find collection of transaction with the same uid
         # Transactions with the same uid are purchased in one receipt
-        $transaction = Transaction::findOrFail($transaction_id);
+        $tickettransaction = TfindOrFail($transaction_id);
+
+
         $transactions = Transaction::where([
           'uid'=>$transaction->uid
         ])->get(['customer_id', 'ticket_id', 'quantity', 'uid']);
