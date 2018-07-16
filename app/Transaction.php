@@ -8,11 +8,11 @@ class Transaction extends Model
 {
     protected $table = 'transaction';
 
-    public function ticket() {
-      return $this->belongsTo('app\Ticket');
-    }
-
     public function customer() {
       return $this->belongsTo('app\Customer');
+    }
+
+    public function ticket() {
+      return $this->hasManyThrough('App\Ticket', 'App\TicketTransaction');
     }
 }
