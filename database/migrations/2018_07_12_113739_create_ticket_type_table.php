@@ -13,6 +13,7 @@ class CreateTicketTypeTable extends Migration
      */
     public function up()
     {
+        Schema::defaultStringLength(191);
         Schema::create('ticket', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('event_id')->unsigned();

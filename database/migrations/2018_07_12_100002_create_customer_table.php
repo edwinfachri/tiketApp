@@ -13,6 +13,7 @@ class CreateCustomerTable extends Migration
      */
     public function up()
     {
+        Schema::defaultStringLength(191);
         Schema::create('customer', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');

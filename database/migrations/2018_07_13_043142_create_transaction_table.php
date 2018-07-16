@@ -13,6 +13,7 @@ class CreateTransactionTable extends Migration
      */
     public function up()
     {
+        Schema::defaultStringLength(191);
         Schema::create('transaction', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('customer_id')->unsigned();

@@ -13,6 +13,7 @@ class CreateEventTable extends Migration
      */
     public function up()
     {
+        Schema::defaultStringLength(191);
         Schema::create('event', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('location_id')->unsigned();
