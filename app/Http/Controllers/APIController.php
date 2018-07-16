@@ -30,7 +30,7 @@ class APIController extends Controller
 
         # Initialize each parameter
         # Some nullable parameters will be set by its default value
-        $event_name = strtolower($_POST['event_name']);
+        $event_name = $_POST['event_name'];
         $event_age_limit = empty($_POST['event_age_limit'])?$_POST['event_age_limit']:'0';
         $location_id = $_POST['location_id'];
         $event_date_start = $_POST['event_date_start'];
