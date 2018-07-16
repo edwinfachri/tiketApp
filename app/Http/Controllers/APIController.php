@@ -245,29 +245,23 @@ class APIController extends Controller
 
         # Find collection of transaction with the same uid
         # Transactions with the same uid are purchased in one receipt
-        $tickettransaction = TfindOrFail($transaction_id);
-
-
-        $transactions = Transaction::where([
-          'uid'=>$transaction->uid
-        ])->get(['customer_id', 'ticket_id', 'quantity', 'uid']);
+        $tickettransaction = TicketTransaction::where('transaction_id', $transaction_id)->get();
 
         # Initialize the total charge
         $total = 0;
 
         # Count the total and subtotal charge for the tickets
-        foreach ($transactions as $key=>$value) {
-          $transactions[$key]['ticket'] = Ticket::where('id', $value->ticket_id)->first(['price', 'event_id']);
-          $transactions[$key]['event'] = Event::where('id', $transactions[$key]['ticket']->event_id)
+        foreach ($tickettransaction as $key=>$value) {
+          $tickettransaction[$key]['ticket'] = Ticket::where('id', $value->ticket_id)->first(['price', 'event_id']);
+          $tickettransaction[$key]['event'] = Event::where('id', $tickettransaction[$key]['ticket']->event_id)
                                         ->first(['name', 'location_id', 'age_limit', 'date_start', 'date_finish']);
-          $transactions[$key]['location'] = Location::where('id', $transactions[$key]['event']->location_id)
+          $tickettransaction[$key]['location'] = Location::where('id', $tickettransaction[$key]['event']->location_id)
                                         ->first(['name', 'city', 'country']);
-          $transactions[$key]['subtotal'] = $value->quantity * $transactions[$key]['ticket']->price;
-          $total += $transactions[$key]['subtotal'];
+          $total += $value->total;
         }
-        $transactions['total'] = $total;
+        $tickettransaction['grand_total'] = $total;
 
-        return response()->json($transactions, 200);
+        return response()->json($tickettransaction, 200);
     }
 
     public function createCustomer(Request $request) {
