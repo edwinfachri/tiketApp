@@ -226,7 +226,26 @@ class APIController extends Controller
             $ticket->quota -= $transaction_quantity;
             $ticket->save();
         }
-        return response()->json(['success'=>'Transaction succeeded'], 201);
+
+        # Return transaction detail
+        $ticket_transaction = TicketTransaction::where('transaction_id', $transaction->id)->get();
+
+        # Initialize the total charge
+        $total = 0;
+
+        # Count the total and subtotal charge for the tickets
+        foreach ($ticket_transaction as $key=>$value) {
+          $ticket_transaction[$key]['ticket'] = Ticket::where('id', $value->ticket_id)->first(['price', 'event_id']);
+          $ticket_transaction[$key]['event'] = Event::where('id', $ticket_transaction[$key]['ticket']->event_id)
+                                        ->first(['name']);
+          $total += $value->total;
+        }
+        $ticket_transaction['grand_total'] = $total;
+
+        return response()->json([
+          'details' => $ticket_transaction,
+          'success'=>'Transaction succeeded'
+        ], 201);
     }
 
     public function getTransactionDetail(Request $request) {
@@ -245,23 +264,23 @@ class APIController extends Controller
 
         # Find collection of transaction with the same uid
         # Transactions with the same uid are purchased in one receipt
-        $tickettransaction = TicketTransaction::where('transaction_id', $transaction_id)->get();
+        $ticket_transaction = TicketTransaction::where('transaction_id', $transaction_id)->get();
 
         # Initialize the total charge
         $total = 0;
 
         # Count the total and subtotal charge for the tickets
-        foreach ($tickettransaction as $key=>$value) {
-          $tickettransaction[$key]['ticket'] = Ticket::where('id', $value->ticket_id)->first(['price', 'event_id']);
-          $tickettransaction[$key]['event'] = Event::where('id', $tickettransaction[$key]['ticket']->event_id)
+        foreach ($ticket_transaction as $key=>$value) {
+          $ticket_transaction[$key]['ticket'] = Ticket::where('id', $value->ticket_id)->first(['price', 'event_id']);
+          $ticket_transaction[$key]['event'] = Event::where('id', $ticket_transaction[$key]['ticket']->event_id)
                                         ->first(['name', 'location_id', 'age_limit', 'date_start', 'date_finish']);
-          $tickettransaction[$key]['location'] = Location::where('id', $tickettransaction[$key]['event']->location_id)
+          $ticket_transaction[$key]['location'] = Location::where('id', $ticket_transaction[$key]['event']->location_id)
                                         ->first(['name', 'city', 'country']);
           $total += $value->total;
         }
-        $tickettransaction['grand_total'] = $total;
+        $ticket_transaction['grand_total'] = $total;
 
-        return response()->json($tickettransaction, 200);
+        return response()->json($ticket_transaction, 200);
     }
 
     public function createCustomer(Request $request) {
