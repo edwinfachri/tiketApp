@@ -20,7 +20,9 @@ class CreateLocationTable extends Migration
             $table->string('country');
             $table->timestamps();
 
-            $table->index(['id']);
+            $table->index('id');
+            $table->index('city');
+            $table->index('country');
         });
     }
 

@@ -23,8 +23,9 @@ class CreateCustomerTable extends Migration
             $table->string('email');
             $table->timestamps();
 
-            $table->index(['id', 'email', 'phone', 'birth_date']);
-
+            $table->index('id');
+            $table->index('email');
+            $table->index('phone');
         });
     }
 
